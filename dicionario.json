@@ -1,0 +1,37 @@
+[
+    {
+        "Nome": "Pedra",
+        "Preço": 500.0,
+        "Quantidade": 1.0
+    },
+    {
+        "Nome": "Bola",
+        "Preço": 10.0,
+        "Quantidade": 5.0
+    },
+    {
+        "Nome": "Escova",
+        "Preço": 2.0,
+        "Quantidade": 500.0
+    },
+    {
+        "Nome": "Peixe",
+        "Preço": 25.99,
+        "Quantidade": 15.0
+    },
+    {
+        "Nome": "Jogo da Velha",
+        "Preço": 15.0,
+        "Quantidade": 3.0
+    },
+    {
+        "Nome": "Rede",
+        "Preço": 90.0,
+        "Quantidade": 2.0
+    },
+    {
+        "Nome": "Xadres",
+        "Preço": 150.0,
+        "Quantidade": 36.0
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "nome": "Joao",
+        "cpf": "123",
+        "saldo": 123023.0
+    },
+    {
+        "nome": "Ana",
+        "cpf": "12345",
+        "saldo": 100.0
+    },
+    {
+        "nome": "Paulo",
+        "cpf": "123456789",
+        "saldo": 150.0
+    },
+    {
+        "nome": "José",
+        "cpf": "456789123",
+        "saldo": 150.0
+    },
+    {
+        "nome": "Simão",
+        "cpf": "1234",
+        "saldo": 900.0
+    },
+    {
+        "nome": "carlos",
+        "cpf": "12387676",
+        "saldo": 3000.0
+    },
+    {
+        "nome": "daniel",
+        "cpf": "123414123",
+        "saldo": 10.0
+    }
+]
