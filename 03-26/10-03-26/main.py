@@ -109,14 +109,32 @@ class CadastroDeProdutos():
             print("Nenhum produto cadastrado!")
             return
         os.system("clear")
-        print("Quantidade total de estoque")
-        total = 0
+        print("Quantidade Total de Estoque")
+        estoque_total = 0
         for produto in self.lista_produtos:
             for chave, valor in produto.items():
                 if chave == "Quantidade":
-                    total += valor
-        print(f"{total}")
-        return total
+                    estoque_total += valor
+        print(f"{estoque_total}")
+        return estoque_total
+    
+    def total_valor(self):
+
+        """ Função que exibe uma somatoria do valor total de estoque
+        """
+
+        if not self.lista_produtos:
+            print("Nenhum produto cadastrado!")
+            return
+        os.system("clear")
+        print("Valor Total de Estoque")
+        valor_total = 0
+        for produto in self.lista_produtos:
+            for chave, valor in produto.items():
+                if chave == "Preço":
+                    valor_total += valor
+        print(f"{valor_total}")
+        return valor_total
         
 class Menu():
     import os
@@ -129,9 +147,10 @@ class Menu():
             print("1 - Cadastrar Produto")
             print("2 - Listar Produtos")
             print("3 - Imprimir Estoque Total")
-            print("4 - Localizar Produto")
-            print("5 - Relatório Filtrado de Produtos")
-            print("6 - Sair")
+            print("4 - Imprima Valor de Estoque Total")
+            print("5 - Localizar Produto")
+            print("6 - Relatório Filtrado de Produtos")
+            print("7 - Sair")
             opt = input("Escolha uma opção:")
 
             if opt == "1":
@@ -164,10 +183,14 @@ class Menu():
 
             elif opt == "4":
                 os.system('clear')
+                self.prod.total_valor()    
+
+            elif opt == "5":
+                os.system('clear')
                 nome = input("Digite o nome do produto:")
                 self.prod.buscar_produtos(nome)
 
-            elif opt == "5":
+            elif opt == "6":
                 os.system('clear')
                 print("Relatório Filtrado de Produtos")
                 print("1 - Produtos Ordenados por Valor")
@@ -185,7 +208,7 @@ class Menu():
                 else:
                     print("Opção inválida.")    
                     
-            elif opt == "6":
+            elif opt == "7":
                 os.system('clear')
                 print("Saindo do sistema...")
                 break
