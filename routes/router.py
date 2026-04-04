@@ -11,73 +11,58 @@ class TaskCreate(BaseModel):
 router = APIRouter()
 manager = TaskManager()
 
+def response(sucess: bool, data=None, message=""):
+    return{
+        "sucess": sucess,
+        "data": data,
+        "message": message
+    }
+
 @router.get("/")
 def home():
-    return {"status": "API Online", "sistema": "Gerenciador de Tarefas"}
+    return response(True, {"status": "API Online"}, "Bem Vindo ao Gerenciador de Tarefas")
 
 @router.get("/tarefas")
 def listar_tarefas():
-    return manager.get_all_tasks()
+    tasks = manager.get_all_tasks()
+    return response(True, tasks, "Lista de tarefas recuperada")
 
 @router.get("/tarefas/{task_id}")
 def get_task(task_id: int):
     task = manager.get_task_by_id(task_id)
     if not task:
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-    return task
+        return JSONResponse(status_code=404, content=response(False, None, "Tarefa não encontrada"))
+    return response(True, task, "Tarefa encontrada")
 
 @router.post("/tarefas", status_code=201)
 def create_task(task: TaskCreate):
     try:
-        manager.create_task(task.title, task.desc)
-        return {"message": "Tarefa criada!"}
+        new_task = manager.create_task(task.title, task.desc)
+        return response(True, new_task, "Tarefa criada com sucesso")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        return JSONResponse(status_code=500, content=response(False, None, str(e)))
 
 @router.delete("/tarefas/{task_id}")
 def delete_task(task_id: int):
-    deleted = manager.delete_task(task_id)
-
-    if not deleted:
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-
-    return {"message": "Tarefa removida com sucesso"}
+    if not manager.delete_task(task_id):
+        return JSONResponse(status_code=404, content=response(False, None, "Tarefa não existe"))
+    return response(True, None, "Tarefa removida com sucesso")
 
 @router.patch("/tarefas/{task_id}/concluir")
 def complete_task(task_id: int):
-    updated = manager.complete_task(task_id)
-
-    if not updated:
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-
-    return {"message": "Tarefa concluída"}
+    if not manager.complete_task(task_id):
+        return JSONResponse(status_code=404, content=response(False, None, "Erro ao concluir: Tarefa não encontrada"))
+    return response(True, None, "Tarefa concluída")
 
 @router.patch("/tarefas/{task_id}/reabrir")
 def reopen_task(task_id: int):
-    updated = manager.reopen_task(task_id)
-
-    if not updated:
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-
-    return {"message": "Tarefa reaberta"}
+    if not manager.reopen_task(task_id):
+        return JSONResponse(status_code=404, content=response(False, None, "Erro ao reabrir: Tarefa não encontrada"))
+    return response(True, None, "Tarefa reaberta")
 
 @router.get("/tarefas/buscar/")
 def search_tasks(title: str):
     results = manager.search_tasks(title)
-
     if not results:
-        raise HTTPException(status_code=404, detail="Nenhuma tarefa encontrada")
-
-    return results
-
-@router.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    print(f"Erro capturado: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content={
-            "message": "Um problema no servidor foi detectado",
-            "details": str(exc),
-            "type": "Erro Interno"
-        }
-    )
+        return response(True, [], "Nenhuma tarefa corresponde à busca")
+    return response(True, results, f"Resultados para: {title}")
